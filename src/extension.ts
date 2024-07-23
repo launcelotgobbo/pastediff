@@ -47,23 +47,18 @@ export function activate(context: vscode.ExtensionContext) {
             
             await vscode.commands.executeCommand('vscode.diff', uri1, uri2, 'Selected Text ↔ Clipboard');
 
-            const config = vscode.workspace.getConfiguration('pastediff');
-            const autoReplace = config.get('autoReplace', false);
-            const diffViewTimeout = config.get('diffViewTimeout', 5000);
+            // Show side pop-up
+            const response = await vscode.window.showInformationMessage(
+                'Replace selected text with clipboard content?',
+                { modal: false },
+                'Yes', 'No'
+            );
 
-            let shouldReplace = autoReplace;
+            // Close the diff view
+            await vscode.commands.executeCommand('workbench.action.closeActiveEditor');
+            outputChannel.appendLine('Diff view closed');
 
-            if (!autoReplace) {
-                // Show side pop-up
-                const response = await vscode.window.showInformationMessage(
-                    'Replace selected text with clipboard content?',
-                    { modal: false },
-                    'Yes', 'No'
-                );
-                shouldReplace = response === 'Yes';
-            }
-
-            if (shouldReplace) {
+            if (response === 'Yes') {
                 const edit = new vscode.WorkspaceEdit();
                 edit.replace(document.uri, selection, clipboardText);
                 
@@ -76,12 +71,6 @@ export function activate(context: vscode.ExtensionContext) {
                     outputChannel.appendLine('Error: Failed to replace text');
                 }
             }
-
-            // Close the diff view after timeout
-            setTimeout(async () => {
-                await vscode.commands.executeCommand('workbench.action.closeActiveEditor');
-                outputChannel.appendLine('Diff view closed');
-            }, diffViewTimeout);
 
             // Clean up temporary files
             fs.unlinkSync(file1);
