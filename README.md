@@ -1,71 +1,51 @@
-# pastediff README
+# PasteDiff
 
-This is the README for your extension "pastediff". After writing up a brief description, we recommend including the following sections.
+PasteDiff is a Visual Studio Code extension that allows you to compare selected text with clipboard content and paste with a diff view.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- Compare selected text with clipboard content
+- View differences in a side-by-side diff view
+- Option to replace selected text with clipboard content
+- Configurable auto-replace and diff view timeout
 
-For example if there is an image subfolder under your extension project workspace:
+## Installation
 
-\!\[feature X\]\(images/feature-x.png\)
+1. Open Visual Studio Code
+2. Press `Ctrl+P` to open the Quick Open dialog
+3. Type `ext install pastediff` to find the extension
+4. Click the `Install` button, then the `Enable` button
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Usage
 
-## Requirements
+You can invoke PasteDiff in three ways:
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+1. **Command Palette**: 
+   - Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (Mac)
+   - Type "PasteDiff" and select "PasteDiff: Compare with Clipboard"
 
-## Extension Settings
+2. **Keyboard Shortcut**:
+   - Press `Ctrl+Shift+V` (Windows/Linux) or `Cmd+Shift+V` (Mac)
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+3. **Context Menu**:
+   - Select text in the editor
+   - Right-click to open the context menu
+   - Choose "PasteDiff: Compare with Clipboard"
 
-For example:
+To use PasteDiff:
+1. Select the text you want to compare in your editor
+2. Copy the text you want to compare against to your clipboard
+3. Invoke PasteDiff using one of the methods above
+4. A diff view will open showing the differences
+5. Choose whether to replace the selected text with the clipboard content
+
+## Configuration
 
 This extension contributes the following settings:
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+* `pastediff.autoReplace`: Automatically replace text without showing confirmation dialog (default: false)
+* `pastediff.diffViewTimeout`: Time (in milliseconds) to keep the diff view open before auto-closing (default: 5000)
 
-## Known Issues
+## License
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+This project is licensed under the MIT License.
