@@ -1,0 +1,64 @@
+{
+  "name": "pastediff",
+  "displayName": "PasteDiff",
+  "description": "Compare selected text with clipboard content and paste with diff view",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:pastediff.compare"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [{
+      "command": "pastediff.compare",
+      "title": "PasteDiff: Compare with Clipboard"
+    }],
+    "keybindings": [{
+      "command": "pastediff.compare",
+      "key": "ctrl+shift+v",
+      "mac": "cmd+shift+v",
+      "when": "editorTextFocus"
+    }],
+    "menus": {
+      "editor/context": [{
+        "when": "editorHasSelection",
+        "command": "pastediff.compare",
+        "group": "9_cutcopypaste"
+      }]
+    },
+    "configuration": {
+      "title": "PasteDiff",
+      "properties": {
+        "pastediff.autoReplace": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically replace text without showing confirmation dialog"
+        },
+        "pastediff.diffViewTimeout": {
+          "type": "number",
+          "default": 5000,
+          "description": "Time (in milliseconds) to keep the diff view open before auto-closing"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "lint": "eslint src --ext ts",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.60.0",
+    "@types/node": "^14.x.x",
+    "@typescript-eslint/eslint-plugin": "^5.30.0",
+    "@typescript-eslint/parser": "^5.30.0",
+    "eslint": "^8.13.0",
+    "typescript": "^4.7.2"
+  }
+}
