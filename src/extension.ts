@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as os from 'os';
 import * as fs from 'fs';
+import * as diff from 'diff';
 
 let outputChannel: vscode.OutputChannel;
 
@@ -45,7 +46,43 @@ export function activate(context: vscode.ExtensionContext) {
             const uri1 = vscode.Uri.file(file1);
             const uri2 = vscode.Uri.file(file2);
             
-            await vscode.commands.executeCommand('vscode.diff', uri1, uri2, 'Selected Text ↔ Clipboard');
+            const diffTitle = 'Selected Text ↔ Clipboard';
+            await vscode.commands.executeCommand('vscode.diff', uri1, uri2, diffTitle);
+
+            // Apply custom decorations
+            const diffEditor = vscode.window.visibleTextEditors.find(e => e.document.uri.scheme === 'diff');
+            if (diffEditor) {
+                const diffChanges = diff.diffLines(selectedText, clipboardText);
+                const additionDecorationType = vscode.window.createTextEditorDecorationType({
+                    backgroundColor: 'rgba(0, 255, 0, 0.2)',
+                    isWholeLine: true,
+                });
+                const deletionDecorationType = vscode.window.createTextEditorDecorationType({
+                    backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                    isWholeLine: true,
+                    textDecoration: 'line-through'
+                });
+
+                let lineNumber = 0;
+                const additionRanges: vscode.Range[] = [];
+                const deletionRanges: vscode.Range[] = [];
+
+                diffChanges.forEach(change => {
+                    const startLine = lineNumber;
+                    const endLine = lineNumber + change.count!;
+
+                    if (change.added) {
+                        additionRanges.push(new vscode.Range(startLine, 0, endLine, 0));
+                    } else if (change.removed) {
+                        deletionRanges.push(new vscode.Range(startLine, 0, endLine, 0));
+                    }
+
+                    lineNumber = endLine;
+                });
+
+                diffEditor.setDecorations(additionDecorationType, additionRanges);
+                diffEditor.setDecorations(deletionDecorationType, deletionRanges);
+            }
 
             // Show side pop-up
             const response = await vscode.window.showInformationMessage(
@@ -54,9 +91,15 @@ export function activate(context: vscode.ExtensionContext) {
                 'Yes', 'No'
             );
 
-            // Close the diff view
-            await vscode.commands.executeCommand('workbench.action.closeActiveEditor');
-            outputChannel.appendLine('Diff view closed');
+            // Find and close the diff editor
+            if (diffEditor) {
+                await vscode.window.showTextDocument(diffEditor.document, diffEditor.viewColumn);
+                await vscode.commands.executeCommand('workbench.action.closeActiveEditor');
+                outputChannel.appendLine('Diff view closed');
+            }
+
+            // Switch focus back to the original editor
+            await vscode.window.showTextDocument(document);
 
             if (response === 'Yes') {
                 const edit = new vscode.WorkspaceEdit();

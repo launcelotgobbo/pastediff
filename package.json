@@ -3,72 +3,82 @@
     "displayName": "PasteDiff",
     "description": "Compare selected text with clipboard content and paste with diff view",
     "version": "0.0.2",
-    "publisher": "YourPublisherName",
+    "publisher": "launcelotgobbo",
     "repository": {
-      "type": "git",
-      "url": "https://github.com/YourUsername/pastediff.git"
+        "type": "git",
+        "url": "https://github.com/launcelotgobbo/pastediff.git"
     },
     "engines": {
-      "vscode": "^1.60.0"
+        "vscode": "^1.60.0"
     },
     "categories": [
-      "Other"
+        "Other"
     ],
     "keywords": [
-      "diff",
-      "compare",
-      "clipboard",
-      "paste"
+        "diff",
+        "compare",
+        "clipboard",
+        "paste"
     ],
     "activationEvents": [
-      "onCommand:pastediff.compare"
+        "onCommand:pastediff.compare"
     ],
     "main": "./out/extension.js",
     "contributes": {
-      "commands": [{
-        "command": "pastediff.compare",
-        "title": "PasteDiff: Compare with Clipboard"
-      }],
-      "keybindings": [{
-        "command": "pastediff.compare",
-        "key": "ctrl+shift+v",
-        "mac": "cmd+shift+v",
-        "when": "editorTextFocus"
-      }],
-      "menus": {
-        "editor/context": [{
-          "when": "editorHasSelection",
-          "command": "pastediff.compare",
-          "group": "9_cutcopypaste"
-        }]
-      }
+        "commands": [
+            {
+                "command": "pastediff.compare",
+                "title": "PasteDiff: Compare with Clipboard"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "pastediff.compare",
+                "key": "ctrl+shift+v",
+                "mac": "cmd+shift+v",
+                "when": "editorTextFocus"
+            }
+        ],
+        "menus": {
+            "editor/context": [
+                {
+                    "when": "editorHasSelection",
+                    "command": "pastediff.compare",
+                    "group": "9_cutcopypaste"
+                }
+            ]
+        }
     },
     "scripts": {
-      "vscode:prepublish": "npm run package",
-      "compile": "webpack",
-      "watch": "webpack --watch",
-      "package": "webpack --mode production --devtool hidden-source-map",
-      "compile-tests": "tsc -p . --outDir out",
-      "watch-tests": "tsc -p . -w --outDir out",
-      "pretest": "npm run compile-tests && npm run compile && npm run lint",
-      "lint": "eslint src --ext ts",
-      "test": "node ./out/test/runTest.js"
+        "vscode:prepublish": "npm run package",
+        "compile": "webpack",
+        "watch": "webpack --watch",
+        "package": "webpack --mode production --devtool hidden-source-map",
+        "compile-tests": "tsc -p . --outDir out",
+        "watch-tests": "tsc -p . -w --outDir out",
+        "pretest": "npm run compile-tests && npm run compile && npm run lint",
+        "lint": "eslint src --ext ts",
+        "test": "node ./out/test/runTest.js"
     },
     "devDependencies": {
-      "@types/vscode": "^1.60.0",
-      "@types/glob": "^7.1.3",
-      "@types/mocha": "^8.2.2",
-      "@types/node": "14.x",
-      "@typescript-eslint/eslint-plugin": "^4.26.0",
-      "@typescript-eslint/parser": "^4.26.0",
-      "eslint": "^7.27.0",
-      "glob": "^7.1.7",
-      "mocha": "^8.4.0",
-      "typescript": "^4.3.2",
-      "vscode-test": "^1.5.2",
-      "webpack": "^5.75.0",
-      "webpack-cli": "^4.10.0",
-      "ts-loader": "^9.4.1"
+        "@types/glob": "^7.1.3",
+        "@types/mocha": "^8.2.2",
+        "@types/node": "14.x",
+        "@types/vscode": "^1.60.0",
+        "@typescript-eslint/eslint-plugin": "^4.26.0",
+        "@typescript-eslint/parser": "^4.26.0",
+        "eslint": "^7.27.0",
+        "glob": "^7.1.7",
+        "mocha": "^8.4.0",
+        "ts-loader": "^9.4.1",
+        "typescript": "^4.3.2",
+        "vscode-test": "^1.5.2",
+        "webpack": "^5.75.0",
+        "webpack-cli": "^4.10.0"
     },
-    "license": "MIT"
-  }
+    "license": "MIT",
+    "dependencies": {
+        "@types/diff": "^5.2.1",
+        "diff": "^5.2.0"
+    }
+}
